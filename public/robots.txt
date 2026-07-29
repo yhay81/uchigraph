@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /p/
+Disallow: /manage/
+Disallow: /api/
+
+Sitemap: https://uchigraph.yhay81.com/sitemap.xml
