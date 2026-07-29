@@ -1,0 +1,32 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "uchigraph",
+  "main": "src/worker.tsx",
+  "compatibility_date": "2026-07-26",
+  "workers_dev": false,
+  "preview_urls": false,
+  "routes": [
+    {
+      "pattern": "uchigraph.yhay81.com",
+      "custom_domain": true,
+    },
+  ],
+  "observability": {
+    "enabled": true,
+  },
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS",
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "uchigraph",
+      "database_id": "d0ac078f-d1f0-4f7c-b479-1ef32e97b47a",
+      "migrations_dir": "migrations",
+    },
+  ],
+  "triggers": {
+    "crons": ["17 19 * * *"],
+  },
+}

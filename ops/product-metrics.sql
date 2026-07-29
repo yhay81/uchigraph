@@ -1,0 +1,21 @@
+SELECT
+  COUNT(DISTINCT CASE WHEN name = 'visited' THEN session_id END) AS users,
+  COUNT(DISTINCT CASE WHEN name = 'practice_created' THEN session_id END) AS creators,
+  COUNT(DISTINCT CASE WHEN name = 'practice_created' THEN practice_id END) AS practices_created,
+  COUNT(DISTINCT CASE WHEN name = 'practice_shared' THEN session_id END) AS sharers,
+  COUNT(DISTINCT CASE WHEN name = 'lesson_opened' THEN session_id END) AS lesson_visitors,
+  COUNT(DISTINCT CASE WHEN name = 'attempt_started' THEN session_id END) AS starters,
+  COUNT(DISTINCT CASE WHEN name = 'attempt_completed' THEN session_id END) AS completers,
+  COUNT(DISTINCT CASE WHEN name = 'attempt_completed' THEN practice_id END) AS completed_practices,
+  COUNT(DISTINCT CASE WHEN name = 'owner_checked' THEN session_id END) AS owners_checked,
+  COUNT(DISTINCT CASE WHEN name = 'practice_closed' THEN practice_id END) AS closed_practices,
+  COUNT(DISTINCT CASE WHEN name = 'returned' THEN session_id END) AS returned_users,
+  COUNT(DISTINCT CASE WHEN name = 'visited' AND occurred_on >= date('now', '-6 days') THEN session_id END) AS users_7d,
+  COUNT(DISTINCT CASE WHEN name = 'practice_created' AND occurred_on >= date('now', '-6 days') THEN session_id END) AS creators_7d,
+  COUNT(DISTINCT CASE WHEN name = 'attempt_completed' AND occurred_on >= date('now', '-6 days') THEN session_id END) AS completers_7d,
+  (SELECT COUNT(*) FROM practices WHERE status = 'active' AND expires_at > unixepoch()) AS active_practices,
+  (SELECT COUNT(*) FROM attempts) AS attempts,
+  (SELECT COUNT(DISTINCT practice_id || ':' || learner_code) FROM attempts) AS learner_codes,
+  (SELECT COUNT(*) FROM reports) AS reports,
+  (SELECT COUNT(*) FROM practices WHERE status = 'hidden') AS hidden_practices
+FROM product_events;
